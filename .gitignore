@@ -1,0 +1,20 @@
+# Build output
+bin/
+obj/
+
+# Visual Studio
+.vs/
+*.user
+*.suo
+
+# MonoGame / MGCB
+*.mgstats
+*.mgcb_editor
+*.xnb
+
+# OS junk
+Thumbs.db
+.DS_Store
+
+# Logs
+*.log
