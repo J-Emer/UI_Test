@@ -3,6 +3,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using UI.Controls;
+using UI.Desktops;
 using UI.Util;
 
 namespace UI;
@@ -14,7 +15,7 @@ public class Game1 : Game
 
 
 
-    private Desktop _desktop;
+    private TestDesktop _desktop;
 
 
 
@@ -43,7 +44,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _desktop = new Desktop(this);
+        _desktop = new TestDesktop(this);
         _desktop.Load();
     }
 
