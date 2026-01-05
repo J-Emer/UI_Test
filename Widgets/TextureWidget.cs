@@ -7,12 +7,12 @@ namespace UI.Widgets
     public class TextureWidget : Control
     {
         private Label _label;
-        public Texture2D DisplayTexture = null;
+        private Texture2D DisplayTexture = null;
         public int TextureWidth = 100;
         public int TextureHeight = 100;
         public int Padding = 10;
-       
         private Rectangle _textureRect = new Rectangle();
+
 
         public TextureWidget(string _title) : base()
         {
@@ -25,6 +25,26 @@ namespace UI.Widgets
             Height = 200;
         }
 
+        public TextureWidget(string _title, Texture2D _texture) : base()
+        {
+            _label = new Label
+            {
+                Text = _title
+            };
+
+            DisplayTexture = _texture;
+
+            Width = 200;
+            Height = 200;
+        }
+        public void SetTexture(Texture2D texture)
+        {
+            DisplayTexture = texture;
+        }
+        public Texture2D GetTexture()
+        {
+            return DisplayTexture;
+        }
         protected override void HandleDirty()
         {
             base.HandleDirty();

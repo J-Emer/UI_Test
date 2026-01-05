@@ -19,6 +19,7 @@ namespace UI.Desktops
             {
                 X = 100,
                 Y = 100,
+                Height = 600,
                 Layout = new RowLayout()  
             };
 
@@ -38,6 +39,10 @@ namespace UI.Desktops
             ColorPicker _picker = new ColorPicker();
             _picker.OnColorChanged += ColorChanged;
             _testWindow.Children.Add(_picker);
+
+
+
+            _testWindow.Children.Add(new TextureWidget("Color", AssetLoader.GetTexture("Color")));
         }
 
         private void ColorChanged(Color color)
