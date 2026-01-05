@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Controls;
 using UI.Util;
+using UI.Widgets;
 
 namespace UI.Desktops
 {
@@ -14,24 +15,32 @@ namespace UI.Desktops
 
         public override void Load()
         {
-            Window _testWindow = new Window("Test Window");
-            Windows.Add(_testWindow);
-
-
-            Window _otherWindow = new Window("Other Window")
+            Window _testWindow = new Window("Test Window")
             {
-                X = 600,
-                Y = 100
+                X = 100,
+                Y = 100,
+                Layout = new RowLayout()  
             };
-            Windows.Add(_otherWindow);
 
-            TextBox _textbox = new TextBox
+            Add(_testWindow);
+
+            TextBox _textbox = new TextBox();
+            _testWindow.Children.Add(_textbox);
+
+            Slider _slider = new Slider
             {
-                X = 650,
-                Y = 150,
-                Width = 500
+                Value = 0.5f
             };
-            _otherWindow.Children.Add(_textbox);
+            _testWindow.Children.Add(_slider);
+
+            _slider.OnValueChanged += SliderChanged;
+
+            _testWindow.Children.Add(new ColorPicker());
+        }
+
+        private void SliderChanged(float obj)
+        {
+           Console.WriteLine(obj.ToString());
         }
     }
 }

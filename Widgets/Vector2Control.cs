@@ -1,8 +1,9 @@
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using UI.Controls;
 
-namespace UI.Controls
+namespace UI.Widgets
 {
     public class Vector2Control : Control
     {

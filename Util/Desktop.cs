@@ -9,7 +9,7 @@ namespace UI.Util
 {
     public abstract class Desktop : IDisposable
     {
-        protected ChildCollection<Window> Windows{get; private set;} = new ChildCollection<Window>();
+        private ChildCollection<Window> Windows = new ChildCollection<Window>();
         public Game1 Game;
         public RasterizerState rasterizer;
         public Rectangle cacheRect;
@@ -40,36 +40,34 @@ namespace UI.Util
         protected void Remove(Window _window)
         {
             Windows.Remove(_window);
-            //todo: handle closing a window
         }
         private void CloseWindow(Window window)
         {
-            Console.WriteLine("todo: handle closing a window in a safe way");
+            Windows.Remove(window);
         }
 
         public abstract void Load();
 
         public virtual void UnLoad()
         {
-            //todo: clear the windows in a safe way
             Windows.Controls.Clear();
         }
 
         public void Update()
         {
-            foreach (var item in Windows.Controls)
+            for (int i = 0; i < Windows.Controls.Count; i++)
             {
-                item.Update();
+                Windows.Controls[i].Update();
             }
         }
         public void Draw()
         {
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, rasterizer);
-
-            foreach (var item in Windows.Controls)
+            
+            for (int i = 0; i < Windows.Controls.Count; i++)
             {
-                sb.GraphicsDevice.ScissorRectangle = item.SourceRect;
-                item.Draw(sb);
+                sb.GraphicsDevice.ScissorRectangle = Windows.Controls[i].SourceRect;
+                Windows.Controls[i].Draw(sb);
                 sb.GraphicsDevice.ScissorRectangle = cacheRect;
             }
 
@@ -78,7 +76,6 @@ namespace UI.Util
 
         public void Dispose()
         {
-            //todo: close the windows in a safe way
             Windows.Controls.Clear();
         }
     }

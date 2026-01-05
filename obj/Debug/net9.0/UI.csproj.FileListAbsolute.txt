@@ -33,3 +33,4 @@ c:\Users\jemer\csharp_projects\UI\obj\Debug\net9.0\UI.genruntimeconfig.cache
 c:\Users\jemer\csharp_projects\UI\obj\Debug\net9.0\ref\UI.dll
 C:\Users\jemer\csharp_projects\UI\bin\Debug\net9.0\Content\font.xnb
 c:\Users\jemer\csharp_projects\UI\bin\Debug\net9.0\Content\Color.xnb
+c:\Users\jemer\csharp_projects\UI\obj\Debug\net9.0\UI.sourcelink.json
