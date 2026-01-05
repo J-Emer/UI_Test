@@ -35,7 +35,14 @@ namespace UI.Desktops
 
             _slider.OnValueChanged += SliderChanged;
 
-            _testWindow.Children.Add(new ColorPicker());
+            ColorPicker _picker = new ColorPicker();
+            _picker.OnColorChanged += ColorChanged;
+            _testWindow.Children.Add(_picker);
+        }
+
+        private void ColorChanged(Color color)
+        {
+            Console.WriteLine(color.ToString());
         }
 
         private void SliderChanged(float obj)

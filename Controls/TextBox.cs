@@ -24,7 +24,7 @@ namespace UI.Controls
 
  
 
-        public TextBox()
+        public TextBox() : base()
         {
             Width = 100;
             Height = Font.LineSpacing + Padding * 2;
