@@ -41,6 +41,10 @@ namespace UI.Util
         {
             Windows.Remove(_window);
         }
+        public Window GetWindow(string name)
+        {
+            return Windows.Find(name);
+        }
         private void CloseWindow(Window window)
         {
             Windows.Remove(window);

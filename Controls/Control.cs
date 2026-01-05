@@ -162,7 +162,10 @@ namespace UI.Controls
 
 
 
-
+        public override string ToString()
+        {
+            return $"Type: {this.GetType()} | Name: {Name} | SourceRect: {SourceRect}";
+        }
 
 
     }

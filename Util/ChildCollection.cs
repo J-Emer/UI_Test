@@ -43,7 +43,7 @@ namespace UI.Util
             Controls.Remove(_control);
             OnChildrenChanged?.Invoke();
         }    
-        public Control Find(string _name)
+        public T Find(string _name)
         {
             return (T)Controls.First(x => x.Name == _name);
         } 

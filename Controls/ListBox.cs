@@ -10,7 +10,7 @@ namespace UI.Controls
     public class ListBox : Control
     {
         private ChildCollection<ListBoxItem> Items = new ChildCollection<ListBoxItem>();
-        private int Padding = 5;
+        public int Padding{get;set;} = 5;
         private Layout layout = new RowLayout();
         private Rectangle _scrollRect;
         private int _scrollY = 0;
@@ -18,6 +18,8 @@ namespace UI.Controls
         private int contentHeight = 0;
         private int minScroll => Math.Min(0, SourceRect.Height - contentHeight); // negative value if content is taller
         private int maxScroll = 0; // can't scroll past top
+
+
         public ListBox() : base()
         {
             Items.OnChildrenChanged += HandleDirty;
@@ -92,17 +94,29 @@ namespace UI.Controls
         public string Text;
         public SpriteFont Font = AssetLoader.DefaultFont;
 
+        public Color HighlightColor{get;set;} = Color.LightGray;
+        public Color NormalColor{get;set;} = Color.Transparent;
+
+
+
         public ListBoxItem(string text, ListBox parent)
         {
             _parent = parent;
 
             Text = text;
-            BackgroundColor = Color.Gray;
-            BorderThickness = 1;
+            BackgroundColor = NormalColor;
+            BorderThickness = 0;
             Width = 100;
             Height = 30;
         }
-
+        protected override void InternalMouseEnter()
+        {
+            BackgroundColor = HighlightColor;
+        }
+        protected override void InternalMouseExit()
+        {
+            BackgroundColor = NormalColor;
+        }
         protected override void InternalMouseClick()
         {
             _parent.ItemSelected?.Invoke(this);

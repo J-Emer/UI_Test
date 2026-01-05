@@ -49,14 +49,12 @@ namespace UI.Desktops
             {
                 X = 600,
                 Y = 100,
+                Padding = 0,
                 Layout = new StretchLayout()
             };
             Add(_listBoxWindow);
 
-            ListBox _listBox = new ListBox()
-            {
-                Height = 300
-            };
+            ListBox _listBox = new ListBox();
             _listBoxWindow.Children.Add(_listBox);
             _listBox.ItemSelected += ItemSelected;
         
@@ -65,6 +63,14 @@ namespace UI.Desktops
                 _listBox.AddItem($"Item: {i}");
             }
         
+
+
+
+            Console.WriteLine(GetWindow("ListBox Window"));
+
+
+
+
         }
 
         private void ItemSelected(ListBoxItem item)
