@@ -6,7 +6,7 @@ using UI.Util;
 
 namespace UI.Controls
 {
-    public class ListView : ContainerControl
+    public class ListView : Control
     {
         private ChildCollection Children;
         public int Padding{get;set;} = 5;
@@ -74,7 +74,10 @@ namespace UI.Controls
         {
             base.Draw(spriteBatch);
 
-            DrawChildrenClipped(spriteBatch, Children.Controls);
+            for (int i = 0; i < Children.Controls.Count; i++)
+            {
+                Children.Controls[i].Draw(spriteBatch);
+            }
         }
 
         internal void ListItemClicked(ListViewItem _item)

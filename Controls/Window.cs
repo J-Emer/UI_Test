@@ -22,7 +22,7 @@ namespace UI.Controls
         Resize
     }
 
-    public class Window : ContainerControl
+    public class Window : Control
     {
         public int Z_Order{get;set;} = 0;
 
