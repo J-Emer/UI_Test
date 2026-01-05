@@ -69,9 +69,11 @@ namespace UI.Controls
 
         public Window(string _title) : base()
         {
-            this.HeaderText = _title;
-            this.Name = _title;
+            HeaderText = _title;
+            Name = _title;
 
+            X = 100;
+            Y = 100;
             Width = 300;
             Height = 400;
 

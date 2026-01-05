@@ -101,10 +101,10 @@ namespace UI.Util
 
             Control item = controls[0];
 
-            item.X = sourceRect.X;
-            item.Y = sourceRect.Y;
-            item.Width = sourceRect.Width;
-            item.Height = sourceRect.Height;
+            item.X = sourceRect.X + padding;
+            item.Y = sourceRect.Y + padding;
+            item.Width = sourceRect.Width - (padding * 2);
+            item.Height = sourceRect.Height - (padding * 2);
 
             return;
         }

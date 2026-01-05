@@ -49,21 +49,27 @@ namespace UI.Desktops
             {
                 X = 600,
                 Y = 100,
-                Layout = new RowLayout()
+                Layout = new StretchLayout()
             };
             Add(_listBoxWindow);
 
-            ListBox _listBox = new ListBox
+            ListBox _listBox = new ListBox()
             {
                 Height = 300
             };
             _listBoxWindow.Children.Add(_listBox);
+            _listBox.ItemSelected += ItemSelected;
         
             for (int i = 0; i < 30; i++)
             {
                 _listBox.AddItem($"Item: {i}");
             }
         
+        }
+
+        private void ItemSelected(ListBoxItem item)
+        {
+            Console.WriteLine(item.Text);
         }
 
         private void ColorChanged(Color color)
