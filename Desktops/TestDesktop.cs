@@ -49,11 +49,14 @@ namespace UI.Desktops
             {
                 X = 600,
                 Y = 100,
-                Layout = new StretchLayout()
+                Layout = new RowLayout()
             };
             Add(_listBoxWindow);
 
-            ListBox _listBox = new ListBox();
+            ListBox _listBox = new ListBox
+            {
+                Height = 300
+            };
             _listBoxWindow.Children.Add(_listBox);
         
             for (int i = 0; i < 30; i++)

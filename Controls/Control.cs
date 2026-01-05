@@ -81,6 +81,7 @@ namespace UI.Controls
         public Color BorderColor{get;set;} = Color.Black;
         public object UserData{get;set;} = null;
      
+
         protected virtual void HandleDirty()
         {
             SourceRect = new Rectangle(X, Y, Width, Height);
@@ -92,7 +93,9 @@ namespace UI.Controls
             {
                 HandleDirty();
             }
-
+            
+            if(!IsActive){return;} 
+            
             _pMouse = _cMouse;
             _cMouse = SourceRect.Contains(Input.MousePos);
 
@@ -100,13 +103,14 @@ namespace UI.Controls
             {
                 //clicked & hasfocus
                 HasFocus = true;
+                IsActive = true;
                 OnClick?.Invoke(this);
                 InternalMouseClick();
             }
 
             // put this here because the control needs to a way to check if it was clicked on. putting the IsActive check at the beginning
             // of Update would perpetually mean this control is not active
-            if(!IsActive){return;} 
+            //if(!IsActive){return;} 
 
             if(!_pMouse && _cMouse)
             {

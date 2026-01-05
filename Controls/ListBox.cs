@@ -22,6 +22,8 @@ namespace UI.Controls
             Height = 200;
 
             _scrollY = Y + Padding;
+
+            HandleDirty();
         }
 
         protected override void HandleDirty()
@@ -33,6 +35,8 @@ namespace UI.Controls
             foreach (var item in Items.Controls)
             {
                 sizeY += item.Height + Padding;
+
+                item.IsActive = item.Y >= SourceRect.Y;
             }
 
             _scrollRect = new Rectangle(
@@ -43,31 +47,40 @@ namespace UI.Controls
             );
 
             layout.DoLayout(_scrollRect, Items.Controls.ToList<Control>(), Padding);
+
+            foreach (var item in Items.Controls)
+            {
+                item.IsActive = SourceRect.Contains(item.SourceRect);
+                item.IsVisible = SourceRect.Contains(item.SourceRect);
+            }            
         }
 
         public void AddItem(string _text)
         {
             Items.Add(new ListBoxItem(_text));
+            HandleDirty();
         }
 
         public override void Update()
         {
             base.Update();
 
-            if(_scrollRect.Contains(Input.MousePos))
+            if(SourceRect.Contains(Input.MousePos))
             {
                 _scrollY += (int)(Input.ScrollWheelDelta * 5);
                 HandleDirty();
-
-                Console.WriteLine(_scrollY.ToString());
             }
+
+            // Clamp _scrollY so it can't scroll past the top or bottom
+            int contentHeight = Items.Controls.Sum(item => item.Height + Padding) + Padding;
+            int minScroll = Math.Min(0, SourceRect.Height - contentHeight); // negative value if content is taller
+            int maxScroll = 0; // can't scroll past top
+
+            _scrollY = Math.Clamp(_scrollY, minScroll, maxScroll);
 
             foreach (var item in Items.Controls)
             {
-                if(item.IsActive)
-                {
-                    item.Update();
-                }
+                item.Update();
             }
         }
 
@@ -77,10 +90,7 @@ namespace UI.Controls
 
             foreach (var item in Items.Controls)
             {
-                if(item.IsActive)
-                {
-                    item.Draw(_spritebatch);
-                }
+                item.Draw(_spritebatch);
             }
         }
 
@@ -102,16 +112,26 @@ namespace UI.Controls
             Height = 30;
         }
 
+        protected override void InternalMouseClick()
+        {
+            Console.WriteLine(Text);
+        }
+
         public override void Draw(SpriteBatch spriteBatch)
         {
             base.Draw(spriteBatch);
 
-            spriteBatch.DrawString(
-                Font,
-                Text,
-                new Vector2(SourceRect.X + 4, SourceRect.Y + 4),
-                Color.Black
-            );
+            if(IsVisible)
+            {
+                spriteBatch.DrawString(
+                    Font,
+                    Text,
+                    new Vector2(SourceRect.X + 4, SourceRect.Y + 4),
+                    Color.Black
+                );
+            }
+
+
         }
     }
 

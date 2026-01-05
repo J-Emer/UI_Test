@@ -69,6 +69,12 @@ public class Game1 : Game
         GraphicsDevice.Clear(Color.CornflowerBlue);
 
         _desktop.Draw();
+
+        _spriteBatch.Begin();
+
+        _spriteBatch.DrawString(AssetLoader.DefaultFont, Input.MousePos.ToString(), Input.MousePos, Color.Black);
+
+        _spriteBatch.End();
         
         base.Draw(gameTime);
     }
