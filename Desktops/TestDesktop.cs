@@ -40,9 +40,27 @@ namespace UI.Desktops
             _picker.OnColorChanged += ColorChanged;
             _testWindow.Children.Add(_picker);
 
-
-
             _testWindow.Children.Add(new TextureWidget("Color", AssetLoader.GetTexture("Color")));
+        
+        
+        
+        
+            Window _listBoxWindow = new Window("ListBox Window")
+            {
+                X = 600,
+                Y = 100,
+                Layout = new StretchLayout()
+            };
+            Add(_listBoxWindow);
+
+            ListBox _listBox = new ListBox();
+            _listBoxWindow.Children.Add(_listBox);
+        
+            for (int i = 0; i < 30; i++)
+            {
+                _listBox.AddItem($"Item: {i}");
+            }
+        
         }
 
         private void ColorChanged(Color color)
