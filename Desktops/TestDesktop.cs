@@ -15,24 +15,41 @@ namespace UI.Desktops
 
         public override void Load()
         {
-            Window _testWindow = new Window("Test Window", this)
+            Window _leftWindow = new Window("Left Window")
             {
-                X = 100,
-                Y = 100,
                 Width = 400,
                 Layout = new HorizontalLayout(),
+                Dock = DockStyle.Left
             };
 
-            Add(_testWindow);
+            Add(_leftWindow);
 
-            Toggle _toggle = new Toggle
+
+            _leftWindow.Children.Add(new DropDownbutton("Foo", new List<string>{"Bar", "Fizz", "Buzz", "Hello", "World"}));
+
+
+
+
+            Window _rightWindow = new Window("Right Window")
             {
-                Width = 100,
-                Height = 30
+                Width = 400,
+                Layout = new HorizontalLayout(),
+                Dock = DockStyle.Right
             };
 
-            _testWindow.Children.Add(_toggle);
+            Add(_rightWindow);
 
+
+
+            Window _bottomWindow = new Window("Bottom Window")
+            {
+                Width = 400,
+                Height = 400,
+                Layout = new HorizontalLayout(),
+                Dock = DockStyle.Bottom
+            };
+
+            Add(_bottomWindow);            
         }
 
     }

@@ -12,92 +12,112 @@ namespace UI.Util
         {
             _desktopBounds = desktopBounds;
         }
-        public void SetDesktopBounds(Rectangle desktopBounds)
+
+        public void SetDesktopBounds(Rectangle bounds)
         {
-            _desktopBounds = desktopBounds;
+            _desktopBounds = bounds;
         }
+
         public void Layout(IReadOnlyList<Window> windows)
         {
             Rectangle remaining = _desktopBounds;
 
+            // Order matters: edges first, center last
             foreach (var win in windows)
             {
                 if (win.Dock == DockStyle.None)
+                {
+                    win.EnableAllResizeHandles();
                     continue;
+                }
 
                 switch (win.Dock)
                 {
                     case DockStyle.Left:
-                        ApplyLeft(win, ref remaining);
+                        ApplyDockLeft(win, ref remaining);
                         break;
 
                     case DockStyle.Right:
-                        ApplyRight(win, ref remaining);
+                        ApplyDockRight(win, ref remaining);
                         break;
 
                     case DockStyle.Top:
-                        ApplyTop(win, ref remaining);
+                        ApplyDockTop(win, ref remaining);
                         break;
 
                     case DockStyle.Bottom:
-                        ApplyBottom(win, ref remaining);
+                        ApplyDockBottom(win, ref remaining);
                         break;
+                }
+            }
 
-                    case DockStyle.Fill:
-                        ApplyFill(win, remaining);
-                        break;
+            // Center windows get whatever space is left
+            foreach (var win in windows)
+            {
+                if (win.Dock == DockStyle.Fill)
+                {
+                    win.SetBounds(remaining);
+                    win.EnableResizeHandles(ResizeDirection.None);
                 }
             }
         }
 
-        private void ApplyLeft(Window win, ref Rectangle remaining)
+        private void ApplyDockLeft(Window w, ref Rectangle remaining)
         {
-            win.X = remaining.Left;
-            win.Y = remaining.Top;
-            win.Width = win.DockSize;
-            win.Height = remaining.Height;
+            w.SetBounds(new Rectangle(
+                remaining.X,
+                remaining.Y,
+                w.DockSize,
+                remaining.Height
+            ));
 
-            remaining.X += win.DockSize;
-            remaining.Width -= win.DockSize;
+            w.EnableResizeHandles(ResizeDirection.Right);
+
+            remaining.X += w.DockSize;
+            remaining.Width -= w.DockSize;
         }
 
-        private void ApplyRight(Window win, ref Rectangle remaining)
+        private void ApplyDockRight(Window w, ref Rectangle remaining)
         {
-            win.X = remaining.Right - win.DockSize;
-            win.Y = remaining.Top;
-            win.Width = win.DockSize;
-            win.Height = remaining.Height;
+            w.SetBounds(new Rectangle(
+                remaining.Right - w.DockSize,
+                remaining.Y,
+                w.DockSize,
+                remaining.Height
+            ));
 
-            remaining.Width -= win.DockSize;
+            w.EnableResizeHandles(ResizeDirection.Left);
+
+            remaining.Width -= w.DockSize;
         }
 
-        private void ApplyTop(Window win, ref Rectangle remaining)
+        private void ApplyDockTop(Window w, ref Rectangle remaining)
         {
-            win.X = remaining.Left;
-            win.Y = remaining.Top;
-            win.Width = remaining.Width;
-            win.Height = win.DockSize;
+            w.SetBounds(new Rectangle(
+                remaining.X,
+                remaining.Y,
+                remaining.Width,
+                w.DockSize
+            ));
 
-            remaining.Y += win.DockSize;
-            remaining.Height -= win.DockSize;
+            w.EnableResizeHandles(ResizeDirection.Bottom);
+
+            remaining.Y += w.DockSize;
+            remaining.Height -= w.DockSize;
         }
 
-        private void ApplyBottom(Window win, ref Rectangle remaining)
+        private void ApplyDockBottom(Window w, ref Rectangle remaining)
         {
-            win.X = remaining.Left;
-            win.Y = remaining.Bottom - win.DockSize;
-            win.Width = remaining.Width;
-            win.Height = win.DockSize;
+            w.SetBounds(new Rectangle(
+                remaining.X,
+                remaining.Bottom - w.DockSize,
+                remaining.Width,
+                w.DockSize
+            ));
 
-            remaining.Height -= win.DockSize;
-        }
+            w.EnableResizeHandles(ResizeDirection.Top);
 
-        private void ApplyFill(Window win, Rectangle remaining)
-        {
-            win.X = remaining.X;
-            win.Y = remaining.Y;
-            win.Width = remaining.Width;
-            win.Height = remaining.Height;
+            remaining.Height -= w.DockSize;
         }
     }
 }

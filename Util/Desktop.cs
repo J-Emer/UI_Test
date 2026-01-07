@@ -47,11 +47,19 @@ namespace UI.Util
         {
             Windows.Add(_window);
             _window.OnClose += CloseWindow;
+            _window.LayoutInvalidated += WindowLayoutInvalidated;
             _dockManager.Layout(Windows.Controls);
         }
+
+        private void WindowLayoutInvalidated(Window window)
+        {
+            HandleLayout();
+        }
+
         protected void Remove(Window _window)
         {
             Windows.Remove(_window);
+            _window.LayoutInvalidated -= WindowLayoutInvalidated;
         }
         public Window GetWindow(string name)
         {
