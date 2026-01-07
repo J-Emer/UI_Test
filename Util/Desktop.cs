@@ -15,6 +15,8 @@ namespace UI.Util
         public Rectangle cacheRect;
         private SpriteBatch sb;
 
+        private DockManager _dockManager;
+
 
         public Desktop(Game1 game)
         {
@@ -24,18 +26,28 @@ namespace UI.Util
             rasterizer = new RasterizerState(){ScissorTestEnable = true};
             cacheRect = new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
 
+            _dockManager = new DockManager(cacheRect);
+
             Game.Window.ClientSizeChanged += ViewPortChanged;
         }
 
         private void ViewPortChanged(object sender, EventArgs e)
         {
             cacheRect = new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
+            _dockManager.SetDesktopBounds(cacheRect);
+            HandleLayout();
+        }
+
+        public void HandleLayout()
+        {
+            _dockManager.Layout(Windows.Controls);
         }
 
         protected void Add(Window _window)
         {
             Windows.Add(_window);
             _window.OnClose += CloseWindow;
+            _dockManager.Layout(Windows.Controls);
         }
         protected void Remove(Window _window)
         {

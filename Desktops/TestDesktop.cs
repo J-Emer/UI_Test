@@ -15,77 +15,25 @@ namespace UI.Desktops
 
         public override void Load()
         {
-            Window _testWindow = new Window("Test Window")
+            Window _testWindow = new Window("Test Window", this)
             {
                 X = 100,
                 Y = 100,
-                Height = 600,
-                Layout = new RowLayout()  
+                Width = 400,
+                Layout = new RowLayout(),
             };
 
             Add(_testWindow);
 
-            TextBox _textbox = new TextBox();
-            _testWindow.Children.Add(_textbox);
-
-            Slider _slider = new Slider
+            Toggle _toggle = new Toggle
             {
-                Value = 0.5f
+                Width = 100,
+                Height = 30
             };
-            _testWindow.Children.Add(_slider);
 
-            _slider.OnValueChanged += SliderChanged;
-
-            ColorPicker _picker = new ColorPicker();
-            _picker.OnColorChanged += ColorChanged;
-            _testWindow.Children.Add(_picker);
-
-            _testWindow.Children.Add(new TextureWidget("Color", AssetLoader.GetTexture("Color")));
-        
-        
-        
-        
-            Window _listBoxWindow = new Window("ListBox Window")
-            {
-                X = 600,
-                Y = 100,
-                Padding = 0,
-                Layout = new StretchLayout()
-            };
-            Add(_listBoxWindow);
-
-            ListBox _listBox = new ListBox();
-            _listBoxWindow.Children.Add(_listBox);
-            _listBox.ItemSelected += ItemSelected;
-        
-            for (int i = 0; i < 30; i++)
-            {
-                _listBox.AddItem($"Item: {i}");
-            }
-        
-
-
-
-            Console.WriteLine(GetWindow("ListBox Window"));
-
-
-
+            _testWindow.Children.Add(_toggle);
 
         }
 
-        private void ItemSelected(ListBoxItem item)
-        {
-            Console.WriteLine(item.Text);
-        }
-
-        private void ColorChanged(Color color)
-        {
-            Console.WriteLine(color.ToString());
-        }
-
-        private void SliderChanged(float obj)
-        {
-           Console.WriteLine(obj.ToString());
-        }
     }
 }

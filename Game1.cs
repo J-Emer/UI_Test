@@ -28,8 +28,12 @@ public class Game1 : Game
 
     protected override void Initialize()
     {
-        _graphics.PreferredBackBufferWidth = 1280;
-        _graphics.PreferredBackBufferHeight = 720;
+        int w = _graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Width;
+        int h = _graphics.GraphicsDevice.Adapter.CurrentDisplayMode.Height;
+        Window.AllowUserResizing = true;
+
+        _graphics.PreferredBackBufferWidth = w;
+        _graphics.PreferredBackBufferHeight = h;
         _graphics.ApplyChanges();
 
         AssetLoader.Init(Content, _graphics.GraphicsDevice, "font");

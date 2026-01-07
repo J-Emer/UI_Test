@@ -66,9 +66,13 @@ namespace UI.Controls
         public ChildCollection Children;
         public Layout Layout = new HorizontalLayout();
 
+        private Desktop _parentDesktop;
 
-        public Window(string _title) : base()
+
+        public Window(string _title, Desktop _parent) : base()
         {
+            _parentDesktop = _parent;
+
             HeaderText = _title;
             Name = _title;
 

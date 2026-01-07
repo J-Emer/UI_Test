@@ -6,13 +6,16 @@ namespace UI.Util
 {
     public class DockManager
     {
-        private readonly Rectangle _desktopBounds;
+        private Rectangle _desktopBounds;
 
         public DockManager(Rectangle desktopBounds)
         {
             _desktopBounds = desktopBounds;
         }
-
+        public void SetDesktopBounds(Rectangle desktopBounds)
+        {
+            _desktopBounds = desktopBounds;
+        }
         public void Layout(IReadOnlyList<Window> windows)
         {
             Rectangle remaining = _desktopBounds;
