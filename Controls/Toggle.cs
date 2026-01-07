@@ -39,7 +39,7 @@ namespace UI.Controls
             }
             else
             {
-                _x = X + _width;
+                _x = (X + _width) - padding;
                 _toggleColor = ToggleButtonInActive;
             }
 

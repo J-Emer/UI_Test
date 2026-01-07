@@ -1,4 +1,5 @@
 using System;
+using System.Linq;
 using System.Collections.Generic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
@@ -152,9 +153,9 @@ namespace UI.Controls
 
             HandleWindowInteraction();
 
-            foreach (var item in Children.Controls)
+            for (int i = 0; i < Children.Controls.Count; i++)
             {
-                item.Update();
+                Children.Controls[i].Update();
             }
         }
 
@@ -273,7 +274,12 @@ namespace UI.Controls
             _spritebatch.Draw(Texture, _closeButtonRect, _closeRectColor);
             _spritebatch.DrawString(Font, "X", new Vector2(_closeButtonRect.X + 15, _closeButtonRect.Y + 10), Color.White);
 
-            Children.Controls.ForEach(x => x.Draw(_spritebatch));
+            //Children.Controls.ForEach(x => x.Draw(_spritebatch));
+
+            for (int i = Children.Controls.Count - 1; i >= 0; i--)
+            {
+                Children.Controls[i].Draw(_spritebatch);
+            }
         }
 
     }

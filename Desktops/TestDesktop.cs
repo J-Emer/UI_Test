@@ -20,7 +20,7 @@ namespace UI.Desktops
                 X = 100,
                 Y = 100,
                 Width = 400,
-                Layout = new RowLayout(),
+                Layout = new HorizontalLayout(),
             };
 
             Add(_testWindow);
