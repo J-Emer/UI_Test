@@ -45,11 +45,20 @@ namespace UI.Desktops
             {
                 Width = 400,
                 Height = 400,
-                Layout = new HorizontalLayout(),
+                Layout = new ColumnLayout(),
                 Dock = DockStyle.Bottom
             };
 
             Add(_bottomWindow);            
+
+
+            for (int i = 0; i < 10; i++)
+            {
+                _bottomWindow.Children.Add(new Button($"Button: {i}"));
+            }
+
+
+
         }
 
     }

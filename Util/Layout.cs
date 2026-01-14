@@ -26,6 +26,23 @@ namespace UI.Util
         }
     }
 
+    public class VerticalLayout : Layout
+    {
+        public override void DoLayout(Rectangle sourceRect, List<Control> controls, int padding)
+        {
+            int xPos = padding + sourceRect.X;
+            int yPos = padding + sourceRect.Y;
+
+            foreach (var item in controls)
+            {
+                item.X = xPos;
+                item.Y = yPos;
+
+                xPos += padding + item.Width;
+            }              
+        } 
+    }
+
     public class RowLayout : Layout
     {
         public override void DoLayout(Rectangle sourceRect, List<Control> controls, int padding)
@@ -46,6 +63,27 @@ namespace UI.Util
             }
         }
     }    
+
+    public class ColumnLayout : Layout
+    {
+        public override void DoLayout(Rectangle sourceRect, List<Control> controls, int padding)
+        {
+            int xPos = padding + sourceRect.X;
+            int yPos = padding + sourceRect.Y;
+
+            int Height = sourceRect.Height - (padding + padding);
+
+            foreach (var item in controls)
+            {
+                item.X = xPos;
+                item.Y = yPos;
+
+                item.Height = Height;
+
+                xPos += padding + item.Width;
+            }
+        }
+    }   
 
     public class GridLayout : Layout
     {
