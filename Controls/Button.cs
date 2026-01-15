@@ -26,7 +26,6 @@ namespace UI.Controls
             Height = 30;
             BackgroundColor = NormalColor;
         }
-
         protected override void HandleDirty()
         {
             base.HandleDirty();

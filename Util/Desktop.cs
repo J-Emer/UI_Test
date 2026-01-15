@@ -45,6 +45,7 @@ namespace UI.Util
 
         protected void Add(Window _window)
         {
+            _window.Desktop = this;
             Windows.Add(_window);
             _window.OnClose += CloseWindow;
             _window.LayoutInvalidated += WindowLayoutInvalidated;
@@ -69,14 +70,19 @@ namespace UI.Util
         {
             Windows.Remove(window);
         }
-
+        public void SetFocusedWindow(Window _window)
+        {
+            for (int i = 0; i < Windows.Controls.Count; i++)
+            {
+                Windows.Controls[i].Z_Order = 0;
+            }
+            _window.Z_Order = 1;
+        }
         public abstract void Load();
-
         public virtual void UnLoad()
         {
             Windows.Controls.Clear();
         }
-
         public void Update()
         {
             for (int i = 0; i < Windows.Controls.Count; i++)
@@ -88,16 +94,17 @@ namespace UI.Util
         {
             sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, rasterizer);
             
-            for (int i = 0; i < Windows.Controls.Count; i++)
+            var _orderedWindows = Windows.Controls.OrderByDescending(x => x.Z_Order).ToList();
+
+            for (int i = 0; i < _orderedWindows.Count; i++)
             {
-                sb.GraphicsDevice.ScissorRectangle = Windows.Controls[i].SourceRect;
-                Windows.Controls[i].Draw(sb);
+                sb.GraphicsDevice.ScissorRectangle = _orderedWindows[i].SourceRect;
+                _orderedWindows[i].Draw(sb);
                 sb.GraphicsDevice.ScissorRectangle = cacheRect;
             }
 
             sb.End();
         }
-
         public void Dispose()
         {
             Windows.Controls.Clear();

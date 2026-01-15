@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "c:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj": {}
+    "C:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj": {}
   },
   "projects": {
-    "c:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj": {
+    "C:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "c:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
+        "projectUniqueName": "C:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
         "projectName": "UI",
-        "projectPath": "c:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
+        "projectPath": "C:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
         "packagesPath": "C:\\Users\\jemer\\.nuget\\packages\\",
-        "outputPath": "c:\\Users\\jemer\\csharp_projects\\UI\\obj\\",
+        "outputPath": "C:\\Users\\jemer\\csharp_projects\\UI\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\jemer\\AppData\\Roaming\\NuGet\\NuGet.Config"

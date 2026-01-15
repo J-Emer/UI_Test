@@ -25,8 +25,9 @@ namespace UI.Desktops
             Add(_leftWindow);
 
 
-            _leftWindow.Children.Add(new DropDownbutton("Foo", new List<string>{"Bar", "Fizz", "Buzz", "Hello", "World"}));
-
+            Button _addWindowButton = new Button("New Window");
+            _addWindowButton.OnClick += AddWindow;
+            _leftWindow.Children.Add(_addWindowButton);
 
 
 
@@ -61,5 +62,15 @@ namespace UI.Desktops
 
         }
 
+        private void AddWindow(Control control)
+        {
+            Add(new Window("New Window")
+            {
+                Width = 400,
+                Height = 400,
+                Layout = new ColumnLayout(),
+                Dock = DockStyle.Bottom
+            });
+        }
     }
 }

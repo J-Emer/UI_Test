@@ -6,24 +6,11 @@ using UI.Util;
 
 namespace UI.Controls
 {
-    public enum ResizeDirection
-    {
-        None   = 0,
-        Left   = 1 << 0,
-        Right  = 1 << 1,
-        Top    = 1 << 2,
-        Bottom = 1 << 3
-    }
 
-    internal enum WindowDragMode
-    {
-        None,
-        Move,
-        Resize
-    }
 
     public class Window : Control
     {
+        public Desktop Desktop;
         public int Z_Order { get; set; } = 0;
 
         // Docking
@@ -52,12 +39,12 @@ namespace UI.Controls
             }
         }
 
-        public int DockSize { get; set; } = 200;
+        public int DockSize { get; set; } = 250;
 
         // Constants
         private const int HEADER_HEIGHT = 40;
         private const int GRAB_SIZE = 15;
-        private const int MIN_WIDTH = 100;
+        private const int MIN_WIDTH = 250;
         private const int MIN_HEIGHT = 80;
 
         // Header / font
@@ -93,6 +80,9 @@ namespace UI.Controls
         public ChildCollection Children;
         public Layout Layout = new HorizontalLayout();
 
+
+        private DropDownbutton _dockButton;
+
         public event Action<Window> LayoutInvalidated;
 
 
@@ -106,9 +96,25 @@ namespace UI.Controls
             Width = 300;
             Height = 400;
 
-
+            _dockButton = new DropDownbutton("None", new List<string>{"Left", "Right", "Top", "Bottom", "Fill", "None"})
+            {
+                Width = 70,
+                Height = 30,
+                BackgroundColor = Color.Transparent,
+                BorderThickness = 0,
+                FontColor = Color.White
+            };
+            _dockButton.OnItemSelected += DockSelected;
+            
             Children = new ChildCollection();
             Children.OnChildrenChanged += HandleDirty;
+        }
+
+        private void DockSelected(string obj)
+        {
+            Enum.TryParse(obj, out DockStyle newDockStyle);
+            _dock = newDockStyle;
+            Desktop.HandleLayout();
         }
 
         public void EnableResizeHandles(ResizeDirection allowed)
@@ -135,6 +141,11 @@ namespace UI.Controls
         {
             base.HandleDirty();
 
+            if(_dockButton.Text != _dock.ToString())
+            {
+                _dockButton.Text = _dock.ToString();
+            }
+
             _headerRect = new Rectangle(SourceRect.X, SourceRect.Y, SourceRect.Width, HEADER_HEIGHT);
 
             _drawRect = new Rectangle(
@@ -150,6 +161,9 @@ namespace UI.Controls
                 HEADER_HEIGHT,
                 HEADER_HEIGHT
             );
+
+            _dockButton.X = _closeButtonRect.X - _dockButton.Width;
+            _dockButton.Y = _closeButtonRect.Y + Padding;
 
             BuildGrabHandles();
 
@@ -182,6 +196,8 @@ namespace UI.Controls
             base.Update();
             HandleWindowInteraction();
 
+            _dockButton.Update();
+
             for (int i = 0; i < Children.Controls.Count; i++)
                 Children.Controls[i].Update();
         }
@@ -192,16 +208,17 @@ namespace UI.Controls
 
             _closeColor = _closeButtonRect.Contains(mouse) ? _closeHover : _closeNormal;
 
-            if (_closeButtonRect.Contains(mouse) &&
-                Input.GetMouseButtonDown(Input.MouseButton.Left))
+            if (_closeButtonRect.Contains(mouse) && Input.GetMouseButtonDown(Input.MouseButton.Left))
             {
                 OnClose?.Invoke(this);
                 return;
             }
 
             // Begin interaction
-            if (Input.GetMouseButtonDown(Input.MouseButton.Left))
+            if (Input.GetMouseButtonDown(Input.MouseButton.Left) && !_dockButton.SourceRect.Contains(Input.MousePos))
             {
+                Desktop.SetFocusedWindow(this);
+
                 // Move (undock immediately)
                 if (_headerRect.Contains(mouse))
                 {
@@ -312,6 +329,9 @@ namespace UI.Controls
 
             for (int i = Children.Controls.Count - 1; i >= 0; i--)
                 Children.Controls[i].Draw(sb);
+
+            _dockButton.Draw(sb);
+
         }
     }
 }
