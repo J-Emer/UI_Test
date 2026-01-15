@@ -1,3 +1,3 @@
 Source File,Dest File,Processor Type,Content Type,Source File Size,Dest File Size,Build Seconds
-"c:/Users/jemer/csharp_projects/UI/Content/Color.png","c:/Users/jemer/csharp_projects/UI/Content/bin/DesktopGL/Content/Color.xnb","TextureProcessor","Texture2DContent",306,40085,0.3941598
-"c:/Users/jemer/csharp_projects/UI/Content/font.spritefont","c:/Users/jemer/csharp_projects/UI/Content/bin/DesktopGL/Content/font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21530,1.2867823
+"C:/Users/jemer/csharp_projects/UI/Content/Color.png","C:/Users/jemer/csharp_projects/UI/Content/bin/DesktopGL/Content/Color.xnb","TextureProcessor","Texture2DContent",306,40085,0.4164844
+"C:/Users/jemer/csharp_projects/UI/Content/font.spritefont","C:/Users/jemer/csharp_projects/UI/Content/bin/DesktopGL/Content/font.xnb","FontDescriptionProcessor","SpriteFontContent",2068,21530,0.2753918

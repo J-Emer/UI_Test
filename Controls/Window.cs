@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Util;
@@ -77,7 +78,7 @@ namespace UI.Controls
 
         // Layout
         public int Padding { get; set; } = 5;
-        public ChildCollection Children;
+        private ChildCollection Children;
         public Layout Layout = new HorizontalLayout();
 
 
@@ -333,5 +334,32 @@ namespace UI.Controls
             _dockButton.Draw(sb);
 
         }
+    
+    
+    
+    
+    
+        //---children---//
+        public List<Control> ChildControls()
+        {
+            return Children.Controls;
+        }
+        public void Add(Control _control)
+        {
+            Children.Add(_control);
+        }
+        public void Remove(Control _control)
+        {
+            Children.Remove(_control);
+        }
+        public Control Find(string _name)
+        {
+            return Children.Find(_name);
+        }
+        public T Find<T>(string _name) where T : Control
+        {
+            return (T)Children.Find(_name);
+        }
+    
     }
 }

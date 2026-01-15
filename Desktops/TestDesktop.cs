@@ -27,7 +27,7 @@ namespace UI.Desktops
 
             Button _addWindowButton = new Button("New Window");
             _addWindowButton.OnClick += AddWindow;
-            _leftWindow.Children.Add(_addWindowButton);
+            _leftWindow.Add(_addWindowButton);
 
 
 
@@ -55,7 +55,7 @@ namespace UI.Desktops
 
             for (int i = 0; i < 10; i++)
             {
-                _bottomWindow.Children.Add(new Button($"Button: {i}"));
+                _bottomWindow.Add(new Button($"Button: {i}"));
             }
 
 
