@@ -80,10 +80,7 @@ namespace UI.Controls
         public int Padding { get; set; } = 5;
         private ChildCollection Children;
         public Layout Layout = new HorizontalLayout();
-
-
         private DropDownbutton _dockButton;
-
         public event Action<Window> LayoutInvalidated;
 
 

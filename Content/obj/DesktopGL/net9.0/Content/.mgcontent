@@ -4,8 +4,8 @@
   <Platform>DesktopGL</Platform>
   <Config />
   <SourceFiles>
-    <File>C:/Users/jemer/csharp_projects/UI/Content/Color.png</File>
-    <File>C:/Users/jemer/csharp_projects/UI/Content/font.spritefont</File>
+    <File>c:/Users/jemer/csharp_projects/UI/Content/Color.png</File>
+    <File>c:/Users/jemer/csharp_projects/UI/Content/font.spritefont</File>
   </SourceFiles>
   <DestFiles>
     <File xsi:nil="true" />

@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "/R2Y318Lotg=",
+  "dgSpecHash": "HQ77umGljlU=",
   "success": true,
-  "projectFilePath": "C:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
+  "projectFilePath": "c:\\Users\\jemer\\csharp_projects\\UI\\UI.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\jemer\\.nuget\\packages\\monogame.content.builder.task\\3.8.4.1\\monogame.content.builder.task.3.8.4.1.nupkg.sha512",
     "C:\\Users\\jemer\\.nuget\\packages\\monogame.framework.desktopgl\\3.8.4.1\\monogame.framework.desktopgl.3.8.4.1.nupkg.sha512",

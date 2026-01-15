@@ -29,6 +29,8 @@ namespace UI.Desktops
             _addWindowButton.OnClick += AddWindow;
             _leftWindow.Add(_addWindowButton);
 
+            Slider _slider = new Slider();
+            _leftWindow.Add(_slider);
 
 
             Window _rightWindow = new Window("Right Window")

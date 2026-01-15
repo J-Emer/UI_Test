@@ -29,8 +29,8 @@ namespace UI.Controls
 
         // Visuals
         public int TrackHeight { get; set; } = 4;
-        public int ThumbWidth { get; set; } = 10;
-        public int ThumbHeight { get; set; } = 16;
+        public int ThumbWidth { get; set; } = 20;
+        public int ThumbHeight { get; set; } = 20;
 
         public Color TrackColor { get; set; } = Color.DarkGray;
         public Color ThumbColor { get; set; } = Color.LightGray;
@@ -40,7 +40,7 @@ namespace UI.Controls
         public Slider()
         {
             Width = 100;
-            Height = 20;
+            Height = 30;
             BackgroundColor = Color.Transparent;
         }
 
@@ -101,20 +101,23 @@ namespace UI.Controls
         {
             float t = (Value - Min) / (Max - Min);
 
-            int thumbX = (int)(SourceRect.X + t * SourceRect.Width) - ThumbWidth / 2;
+            int trackStart = SourceRect.X + ThumbWidth / 2;
+            int trackEnd   = SourceRect.Right - ThumbWidth / 2;
+            int trackWidth = trackEnd - trackStart;
+
+            int thumbX = (int)(trackStart + t * trackWidth) - ThumbWidth / 2;
             int thumbY = SourceRect.Y + (SourceRect.Height - ThumbHeight) / 2;
 
             return new Rectangle(thumbX, thumbY, ThumbWidth, ThumbHeight);
         }
+
 
         private void DrawBorder(SpriteBatch spriteBatch)
         {
             if (BorderThickness <= 0)
                 return;
 
-            spriteBatch.Draw(Texture,
-                new Rectangle(SourceRect.Left, SourceRect.Top, SourceRect.Width, BorderThickness),
-                BorderColor); // Top
+            spriteBatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Top, SourceRect.Width, BorderThickness),BorderColor); // Top
 
             spriteBatch.Draw(Texture,
                 new Rectangle(SourceRect.Left, SourceRect.Bottom - BorderThickness, SourceRect.Width, BorderThickness),
