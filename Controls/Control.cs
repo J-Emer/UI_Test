@@ -9,12 +9,14 @@ namespace UI.Controls
 {
     public class Control
     {
+
+#region State
         public string Name{get;set;} = "Control";
         public bool IsActive{get;set;} = true; //update or not update
         public bool IsVisible{get;set;} = true; //draw or not draw
         public bool HasFocus{get;set;} = false; //used by child controls 
         public object UserData{get;set;} = null; //users defined data
-
+#endregion
 
 #region Background
         public Texture2D Texture{get;set;} = AssetLoader.GetPixel();
@@ -75,6 +77,7 @@ namespace UI.Controls
             }
         }
         public Rectangle SourceRect{get; private set;} = new Rectangle();
+        public Vector2 Center => new Vector2(SourceRect.Center.X, SourceRect.Center.Y);
 #endregion
 
 #region Cursor        
@@ -102,7 +105,6 @@ namespace UI.Controls
             SourceRect = new Rectangle(X, Y, Width, Height);
             OnInvalidate?.Invoke(this);
             AfterInvalidation();
-
         }
 
         public virtual void Update()
@@ -132,10 +134,6 @@ namespace UI.Controls
                 InternalMouseClick();
             }
 
-            // put this here because the control needs to a way to check if it was clicked on. putting the IsActive check at the beginning
-            // of Update would perpetually mean this control is not active
-            //if(!IsActive){return;} 
-
             if(!_pMouse && _cMouse)
             {
                 //enter
@@ -159,7 +157,6 @@ namespace UI.Controls
 
             if(Input.GetMouseButtonDown(Input.MouseButton.Left) && !_cMouse)
             {
-                //lost focus
                 HasFocus = false;
             }            
 
@@ -171,6 +168,7 @@ namespace UI.Controls
             _spritebatch.Draw(Texture, SourceRect, BackgroundColor);
 
             //border
+            if(BorderThickness == 0){return;}
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Top, SourceRect.Width, BorderThickness), BorderColor);//top
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Right - BorderThickness, SourceRect.Top, BorderThickness, SourceRect.Height), BorderColor);//right
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Bottom - BorderThickness, SourceRect.Width, BorderThickness), BorderColor);//bottom
