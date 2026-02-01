@@ -10,10 +10,18 @@ namespace UI.Controls
     public class Control
     {
         public string Name{get;set;} = "Control";
-        public bool IsActive{get;set;} = true;
-        public bool IsVisible{get;set;} = true;
-        public bool HasFocus{get;set;} = false; 
+        public bool IsActive{get;set;} = true; //update or not update
+        public bool IsVisible{get;set;} = true; //draw or not draw
+        public bool HasFocus{get;set;} = false; //used by child controls 
+        public object UserData{get;set;} = null; //users defined data
+
+
+#region Background
         public Texture2D Texture{get;set;} = AssetLoader.GetPixel();
+        public Color BackgroundColor{get;set;} = Color.White;
+#endregion
+
+#region Size/Position
         private int _x;
         private int _y;
         private int _width;
@@ -67,18 +75,26 @@ namespace UI.Controls
             }
         }
         public Rectangle SourceRect{get; private set;} = new Rectangle();
-        public Color BackgroundColor{get;set;} = Color.White;
+#endregion
+
+#region Cursor        
         private bool _pMouse = false;
         private bool _cMouse = false;
+#endregion
+
+#region  Border
+        public int BorderThickness{get;set;} = 1;
+        public Color BorderColor{get;set;} = Color.Black;
+#endregion
+     
+#region Events
         public Action<Control> OnInvalidate;
         public Action OnMouseEnter;
         public Action OnMouseExit;
         public Action OnMouseHover;
-        public Action<Control, Input.MouseButton> OnClick;
-        public int BorderThickness{get;set;} = 1;
-        public Color BorderColor{get;set;} = Color.Black;
-        public object UserData{get;set;} = null;
-     
+        public Action<Control, Input.MouseButton> OnClick;     
+#endregion
+
 
         private void HandleDirty()
         {
