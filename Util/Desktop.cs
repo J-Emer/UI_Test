@@ -9,105 +9,44 @@ namespace UI.Util
 {
     public abstract class Desktop : IDisposable
     {
-        private ChildCollection<Window> Windows = new ChildCollection<Window>();
-        public Game1 Game;
-        public RasterizerState rasterizer;
-        public Rectangle cacheRect;
-        private SpriteBatch sb;
+        protected Game1 Game;
+        protected SpriteBatch spriteBatch;
+        protected List<Control> Controls = new List<Control>();
 
-        private DockManager _dockManager;
-
-
-        public Desktop(Game1 game)
+        public Desktop(Game1 game, string fontName)
         {
             Game = game;
-            sb = new SpriteBatch(game.GraphicsDevice);
-
-            rasterizer = new RasterizerState(){ScissorTestEnable = true};
-            cacheRect = new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
-
-            _dockManager = new DockManager(cacheRect);
-
-            Game.Window.ClientSizeChanged += ViewPortChanged;
+            spriteBatch = new SpriteBatch(Game.GraphicsDevice);
+            AssetLoader.Init(Game.Content, Game.GraphicsDevice, fontName);
         }
+        public void Add(Control _control) => Controls.Add(_control);
+        public void Remove(Control _control) => Controls.Remove(_control);
+        public void Update(GameTime gameTime)
+        {
+            Time.Update(gameTime);
+            Input.Update();        
 
-        private void ViewPortChanged(object sender, EventArgs e)
-        {
-            cacheRect = new Rectangle(0, 0, Game.GraphicsDevice.Viewport.Width, Game.GraphicsDevice.Viewport.Height);
-            _dockManager.SetDesktopBounds(cacheRect);
-            HandleLayout();
-        }
-
-        public void HandleLayout()
-        {
-            _dockManager.Layout(Windows.Controls);
-        }
-
-        protected void Add(Window _window)
-        {
-            _window.Desktop = this;
-            Windows.Add(_window);
-            _window.OnClose += CloseWindow;
-            _window.LayoutInvalidated += WindowLayoutInvalidated;
-            _dockManager.Layout(Windows.Controls);
-        }
-
-        private void WindowLayoutInvalidated(Window window)
-        {
-            HandleLayout();
-        }
-
-        protected void Remove(Window _window)
-        {
-            Windows.Remove(_window);
-            _window.LayoutInvalidated -= WindowLayoutInvalidated;
-        }
-        public Window GetWindow(string name)
-        {
-            return Windows.Find(name);
-        }
-        private void CloseWindow(Window window)
-        {
-            Windows.Remove(window);
-        }
-        public void SetFocusedWindow(Window _window)
-        {
-            for (int i = 0; i < Windows.Controls.Count; i++)
+            for (int i = 0; i < Controls.Count; i++)
             {
-                Windows.Controls[i].Z_Order = 0;
-            }
-            _window.Z_Order = 1;
-        }
-        public abstract void Load();
-        public virtual void UnLoad()
-        {
-            Windows.Controls.Clear();
-        }
-        public void Update()
-        {
-            for (int i = 0; i < Windows.Controls.Count; i++)
-            {
-                Windows.Controls[i].Update();
-            }
+                Controls[i].Update();
+            }    
         }
         public void Draw()
         {
-            sb.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, null, null, rasterizer);
-            
-            var _orderedWindows = Windows.Controls.OrderByDescending(x => x.Z_Order).ToList();
+            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, null);
 
-            for (int i = 0; i < _orderedWindows.Count; i++)
+            for (int i = 0; i < Controls.Count; i++)
             {
-                sb.GraphicsDevice.ScissorRectangle = _orderedWindows[i].SourceRect;
-                _orderedWindows[i].Draw(sb);
-                sb.GraphicsDevice.ScissorRectangle = cacheRect;
-            }
+                Controls[i].Draw(spriteBatch);
+            }              
 
-            sb.End();
+            spriteBatch.End();
         }
+        public virtual void Load(){}
+        public virtual void Unload(){}
         public void Dispose()
         {
-            Windows.Controls.Clear();
+
         }
     }
 }

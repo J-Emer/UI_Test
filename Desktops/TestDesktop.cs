@@ -5,74 +5,34 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Controls;
 using UI.Util;
-using UI.Widgets;
+
 
 namespace UI.Desktops
 {
     public class TestDesktop : Desktop
     {
-        public TestDesktop(Game1 game) : base(game){}
+        public TestDesktop(Game1 game, string fontName) : base(game, fontName){}
 
         public override void Load()
         {
-            Window _leftWindow = new Window("Left Window")
+
+            Control _control = new Control
             {
-                Width = 400,
-                Layout = new HorizontalLayout(),
-                Dock = DockStyle.Left
+                X = 100,
+                Y = 100,
+                Width = 300,
+                Height = 400
             };
-
-            Add(_leftWindow);
-
-
-            Button _addWindowButton = new Button("New Window");
-            _addWindowButton.OnClick += AddWindow;
-            _leftWindow.Add(_addWindowButton);
-
-            Slider _slider = new Slider();
-            _leftWindow.Add(_slider);
+            Add(_control);
 
 
-            Window _rightWindow = new Window("Right Window")
-            {
-                Width = 400,
-                Layout = new HorizontalLayout(),
-                Dock = DockStyle.Right
-            };
-
-            Add(_rightWindow);
-
-
-
-            Window _bottomWindow = new Window("Bottom Window")
-            {
-                Width = 400,
-                Height = 400,
-                Layout = new ColumnLayout(),
-                Dock = DockStyle.Bottom
-            };
-
-            Add(_bottomWindow);            
-
-
-            for (int i = 0; i < 10; i++)
-            {
-                _bottomWindow.Add(new Button($"Button: {i}"));
-            }
-
-
+            _control.OnClick += Clicked;
 
         }
 
-        private void AddWindow(Control control)
+        private void Clicked(Control control, Input.MouseButton button)
         {
-            Add(new Window("New Window")
-            {
-                Width = 400,
-                Height = 400,
-                Layout = new ColumnLayout(),
-                Dock = DockStyle.Bottom
-            });
+            Console.WriteLine(button.ToString());
         }
     }
 }

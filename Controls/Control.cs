@@ -2,6 +2,7 @@ using System;
 using System.Runtime.InteropServices.Marshalling;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using UI.Util;
 
 namespace UI.Controls
@@ -11,9 +12,8 @@ namespace UI.Controls
         public string Name{get;set;} = "Control";
         public bool IsActive{get;set;} = true;
         public bool IsVisible{get;set;} = true;
-        public bool HasFocus{get;set;} = false;
+        public bool HasFocus{get;set;} = false; 
         public Texture2D Texture{get;set;} = AssetLoader.GetPixel();
-        public bool IsDirty{get; set;} = true;
         private int _x;
         private int _y;
         private int _width;
@@ -27,10 +27,9 @@ namespace UI.Controls
             set
             {
                 _x = value;
-                IsDirty = true; 
+                HandleDirty();
             }
         }
-
         public int Y
         {
             get
@@ -40,10 +39,9 @@ namespace UI.Controls
             set
             {
                 _y = value;
-                IsDirty = true; 
+                HandleDirty();
             }
         }
-
         public int Width
         {
             get
@@ -53,10 +51,9 @@ namespace UI.Controls
             set
             {
                 _width = value;
-                IsDirty = true; 
+                HandleDirty();
             }
         }
-
         public int Height
         {
             get
@@ -66,45 +63,56 @@ namespace UI.Controls
             set
             {
                 _height = value;
-                IsDirty = true; 
+                HandleDirty();
             }
         }
         public Rectangle SourceRect{get; private set;} = new Rectangle();
         public Color BackgroundColor{get;set;} = Color.White;
         private bool _pMouse = false;
         private bool _cMouse = false;
+        public Action<Control> OnInvalidate;
         public Action OnMouseEnter;
         public Action OnMouseExit;
         public Action OnMouseHover;
-        public Action<Control> OnClick;
+        public Action<Control, Input.MouseButton> OnClick;
         public int BorderThickness{get;set;} = 1;
         public Color BorderColor{get;set;} = Color.Black;
         public object UserData{get;set;} = null;
      
 
-        protected virtual void HandleDirty()
+        private void HandleDirty()
         {
+            BeforeInvalidation();
             SourceRect = new Rectangle(X, Y, Width, Height);
-            IsDirty = false;
+            OnInvalidate?.Invoke(this);
+            AfterInvalidation();
+
         }
+
         public virtual void Update()
-        {
-            if(IsDirty)
-            {
-                HandleDirty();
-            }
-            
+        {           
             if(!IsActive){return;} 
             
             _pMouse = _cMouse;
             _cMouse = SourceRect.Contains(Input.MousePos);
 
+            //left mouse click
             if(Input.GetMouseButtonDown(Input.MouseButton.Left) && _cMouse)
             {
                 //clicked & hasfocus
                 HasFocus = true;
                 IsActive = true;
-                OnClick?.Invoke(this);
+                OnClick?.Invoke(this, Input.MouseButton.Left);
+                InternalMouseClick();
+            }
+
+            //right mouse click
+            if(Input.GetMouseButtonDown(Input.MouseButton.Right) && _cMouse)
+            {
+                //clicked & hasfocus
+                HasFocus = true;
+                IsActive = true;
+                OnClick?.Invoke(this, Input.MouseButton.Right);
                 InternalMouseClick();
             }
 
@@ -153,6 +161,9 @@ namespace UI.Controls
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Top, BorderThickness, SourceRect.Height), BorderColor);//left
         }
 
+
+        protected virtual void BeforeInvalidation(){}
+        protected virtual void AfterInvalidation(){}
         protected virtual void InternalMouseEnter(){}
         protected virtual void InternalMouseHover(){}
         protected virtual void InternalMouseExit(){}

@@ -12,9 +12,6 @@ public class Game1 : Game
 {
     private GraphicsDeviceManager _graphics;
     private SpriteBatch _spriteBatch;
-
-
-
     private TestDesktop _desktop;
 
 
@@ -48,22 +45,16 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _desktop = new TestDesktop(this);
+        _desktop = new TestDesktop(this, "font");
         _desktop.Load();
     }
 
     protected override void Update(GameTime gameTime)
     {
-        Time.Update(gameTime);
-        Input.Update();
-
-
         if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed || Keyboard.GetState().IsKeyDown(Keys.Escape))
             Exit();
 
-        // TODO: Add your update logic here
-
-        _desktop.Update();
+        _desktop.Update(gameTime);
 
         base.Update(gameTime);
     }
@@ -76,7 +67,7 @@ public class Game1 : Game
 
         _spriteBatch.Begin();
 
-        _spriteBatch.DrawString(AssetLoader.DefaultFont, Input.MousePos.ToString(), Input.MousePos, Color.Black);
+        _spriteBatch.DrawString(AssetLoader.DefaultFont, Input.MousePos.ToString(), Input.MousePos + new Vector2(10, 0), Color.Black);
 
         _spriteBatch.End();
         
