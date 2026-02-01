@@ -51,7 +51,7 @@ namespace UI.Controls
         {
             base.Update();
 
-            if(Input.ScrollWheelDelta != 0)
+            if(Input.ScrollWheelDelta != 0 && _cMouse)
             {
                 _scrollY += (int)Input.ScrollWheelDelta * 5;
 
@@ -67,28 +67,29 @@ namespace UI.Controls
 
             for (int i = 0; i < Items.Controls.Count; i++)
             {
-                bool contains = SourceRect.Contains(Items.Controls[i].SourceRect);
-                Items.Controls[i].IsVisible = contains;
-                Items.Controls[i].IsActive = contains;
+                Items.Controls[i].IsActive = SourceRect.Intersects(Items.Controls[i].SourceRect);
                 Items.Controls[i].Update();
             }
         }
 
-        public override void Draw(SpriteBatch _spritebatch)
+        public override void Draw(SpriteBatch _spritebatch, GraphicsDeviceManager graphics)
         {
-            base.Draw(_spritebatch);
+            base.Draw(_spritebatch, graphics);
+
+            ScissorStack.Push(graphics.GraphicsDevice, SourceRect);
 
             for (int i = 0; i < Items.Controls.Count; i++)
             {
-                Items.Controls[i].Draw(_spritebatch);
+                Items.Controls[i].Draw(_spritebatch, graphics);
             }
 
             //border for scrollrect for testing
-            _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Top, _scrollRect.Width, 2), Color.White);//top
-            _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Right - 2, _scrollRect.Top, 2, _scrollRect.Height), Color.White);//right
-            _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Bottom - 2, _scrollRect.Width, 2), Color.White);//bottom
-            _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Top, 2, _scrollRect.Height), Color.White);//left
-                    
+            // _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Top, _scrollRect.Width, 2), Color.White);//top
+            // _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Right - 2, _scrollRect.Top, 2, _scrollRect.Height), Color.White);//right
+            // _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Bottom - 2, _scrollRect.Width, 2), Color.White);//bottom
+            // _spritebatch.Draw(Texture, new Rectangle(_scrollRect.Left, _scrollRect.Top, 2, _scrollRect.Height), Color.White);//left
+
+            ScissorStack.Pop(graphics.GraphicsDevice);                    
         }
     }
 
@@ -133,10 +134,10 @@ namespace UI.Controls
         {
             BackgroundColor = NormalColor;
         }        
-        public override void Draw(SpriteBatch _spritebatch)
+        public override void Draw(SpriteBatch _spritebatch, GraphicsDeviceManager graphics)
         {
             if(!IsVisible){return;} //why does this work here, but in the Control it doesn't? IsActive works in Control
-            base.Draw(_spritebatch);
+            base.Draw(_spritebatch, graphics);
 
             _spritebatch.DrawString(Font, Text, _textPos, FontColor);
         }

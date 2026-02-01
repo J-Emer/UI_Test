@@ -49,7 +49,7 @@ public class Game1 : Game
     {
         _spriteBatch = new SpriteBatch(GraphicsDevice);
 
-        _desktop = new TestDesktop(this, "font");
+        _desktop = new TestDesktop(this, _graphics, "font");
         _desktop.Load();
     }
 

@@ -33,9 +33,9 @@ namespace UI.Controls
         {
             BackgroundColor = NormalColor;
         }
-        public override void Draw(SpriteBatch _spritebatch)
+        public override void Draw(SpriteBatch _spritebatch, GraphicsDeviceManager graphics)
         {
-            base.Draw(_spritebatch);
+            base.Draw(_spritebatch, graphics);
 
             _spritebatch.DrawString(Font, Text, _textPos, FontColor);
         }

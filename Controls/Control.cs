@@ -81,8 +81,8 @@ namespace UI.Controls
 #endregion
 
 #region Cursor        
-        private bool _pMouse = false;
-        private bool _cMouse = false;
+        protected bool _pMouse = false;
+        protected bool _cMouse = false;
 #endregion
 
 #region  Border
@@ -161,7 +161,7 @@ namespace UI.Controls
             }            
 
         }
-        public virtual void Draw(SpriteBatch _spritebatch)
+        public virtual void Draw(SpriteBatch _spritebatch, GraphicsDeviceManager graphics)
         {
             if(!IsVisible){return;}
 
@@ -173,6 +173,9 @@ namespace UI.Controls
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Right - BorderThickness, SourceRect.Top, BorderThickness, SourceRect.Height), BorderColor);//right
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Bottom - BorderThickness, SourceRect.Width, BorderThickness), BorderColor);//bottom
             _spritebatch.Draw(Texture, new Rectangle(SourceRect.Left, SourceRect.Top, BorderThickness, SourceRect.Height), BorderColor);//left
+        
+      
+
         }
 
 

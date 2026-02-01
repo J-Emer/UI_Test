@@ -72,9 +72,9 @@ namespace UI.Controls
             }
         }
 
-        public override void Draw(SpriteBatch spriteBatch)
+        public override void Draw(SpriteBatch spriteBatch, GraphicsDeviceManager graphics)
         {
-            base.Draw(spriteBatch);
+            base.Draw(spriteBatch, graphics);
 
             // Track
             Rectangle trackRect = new Rectangle(

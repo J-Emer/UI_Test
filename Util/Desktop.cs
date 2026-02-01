@@ -11,14 +11,31 @@ namespace UI.Util
     {
         protected Game1 Game;
         protected SpriteBatch spriteBatch;
+        protected GraphicsDeviceManager Graphics;
         protected List<Control> Controls = new List<Control>();
-
-        public Desktop(Game1 game, string fontName)
+        protected Rectangle _scissorsRect = new Rectangle();
+        protected RasterizerState RasterizerState = new RasterizerState
+                                                                        {
+                                                                            ScissorTestEnable = true,
+                                                                        };
+        
+        public Desktop(Game1 game, GraphicsDeviceManager graphics, string fontName)
         {
             Game = game;
+            Graphics = graphics;
+            game.Window.ClientSizeChanged += ClientSizedChanged;
             spriteBatch = new SpriteBatch(Game.GraphicsDevice);
             AssetLoader.Init(Game.Content, Game.GraphicsDevice, fontName);
+            _scissorsRect = new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+            Graphics.GraphicsDevice.ScissorRectangle = _scissorsRect;
         }
+
+        private void ClientSizedChanged(object sender, EventArgs e)
+        {
+            _scissorsRect = new Rectangle(0, 0, Graphics.PreferredBackBufferWidth, Graphics.PreferredBackBufferHeight);
+            Graphics.GraphicsDevice.ScissorRectangle = _scissorsRect;
+        }
+
         public void Add(Control _control) => Controls.Add(_control);
         public void Remove(Control _control) => Controls.Remove(_control);
         public void Update(GameTime gameTime)
@@ -33,14 +50,17 @@ namespace UI.Util
         }
         public void Draw()
         {
-            spriteBatch.Begin(SpriteSortMode.Immediate, null, null, null, null, null, null);
+            spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState);
+
+            Graphics.GraphicsDevice.ScissorRectangle = _scissorsRect;
 
             for (int i = 0; i < Controls.Count; i++)
             {
-                Controls[i].Draw(spriteBatch);
+                Controls[i].Draw(spriteBatch, Graphics);
             }              
 
             spriteBatch.End();
+
         }
         public virtual void Load(){}
         public virtual void Unload(){}
