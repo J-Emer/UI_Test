@@ -99,7 +99,7 @@ namespace UI.Controls
 #endregion
 
 
-        private void HandleDirty()
+        protected void HandleDirty()
         {
             BeforeInvalidation();
             SourceRect = new Rectangle(X, Y, Width, Height);

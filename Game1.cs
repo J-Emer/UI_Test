@@ -36,6 +36,7 @@ public class Game1 : Game
         _graphics.PreferredBackBufferWidth = 1280;
         _graphics.PreferredBackBufferHeight = 720;
         _graphics.ApplyChanges();
+        Window.AllowUserResizing = true;
 
         AssetLoader.Init(Content, _graphics.GraphicsDevice, "font");
 
