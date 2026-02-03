@@ -5,6 +5,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using UI.Controls;
 using UI.Util;
+using UI.Widgets;
 
 
 namespace UI.Desktops
@@ -19,7 +20,19 @@ namespace UI.Desktops
             MenuStrip _menu = new MenuStrip();
             Add(_menu);
 
-            _menu.Items.Add(new MenuItem("File", new List<string>()));
+            MenuItem _item = new MenuItem("File", new List<string>());
+            _menu.Items.Add(_item);
+
+            _item.OnClick += (cont, inpu) =>
+            {
+                ColorPicker _picker = new ColorPicker("Color Picker")
+                {
+                    X = 500,
+                    Y = 500,
+                };
+                _picker.SetColor(Color.Yellow);
+                Add(_picker);
+            };
 
             for (int i = 0; i < 5; i++)
             {
