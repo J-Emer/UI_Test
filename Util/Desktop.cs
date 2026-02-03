@@ -69,12 +69,12 @@ namespace UI.Util
             spriteBatch.Begin(SpriteSortMode.Immediate, BlendState.AlphaBlend, SamplerState.PointClamp, DepthStencilState.None, RasterizerState);
 
             Graphics.GraphicsDevice.ScissorRectangle = _scissorsRect;
-
-            for (int i = 0; i < Controls.Count; i++)
+        
+            for (int i = Controls.Count - 1; i >= 0; i--)
             {
                 Controls[i].Draw(spriteBatch, Graphics);
-            }              
-
+            }
+           
             if(IsDragging)
             {
                 _dockManager.DrawDropZones(spriteBatch, Graphics);               
